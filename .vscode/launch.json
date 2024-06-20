@@ -23,6 +23,16 @@
             "request": "launch",
             "mainClass": "br.jus.tjes.App",
             "projectName": "logging"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-OlaSpringBootApplication<ola-spring-boot>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.com.vta.olaspringboot.OlaSpringBootApplication",
+            "projectName": "ola-spring-boot",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
