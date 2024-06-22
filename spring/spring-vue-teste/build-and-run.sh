@@ -42,7 +42,7 @@ cd backend || { echo "Diretório backend não encontrado"; exit 1; }
 docker build -t vinissaum/spring-vue-teste:1.0 . || { echo "Falha ao construir a imagem Docker"; exit 1; }
 cd..
 
-docker images | grep vinissaum/spring-vue-teste
+# docker images | grep vinissaum/spring-vue-teste
 
 # Navega até o diretório config e executa o docker-compose up
 # cd config || { echo "Diretório config não encontrado"; exit 1; }

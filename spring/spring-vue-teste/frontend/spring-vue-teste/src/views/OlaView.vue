@@ -9,6 +9,8 @@
 <script>
 import axios from 'axios';
 
+const API_URL = process.env.VUE_APP_API_URL;
+
 export default {
   data() {
     return {
@@ -21,7 +23,8 @@ export default {
   methods: {
     async fetchMessage() {
       try {
-        const response = await axios.get('http://localhost:8081/api-ola');
+        // const response = await axios.get(`${API_URL}/api-ola`);
+        const response = await axios.get(`/api-ola`);
         this.message = response.data.mensagem;
       } catch (error) {
         console.error('Error fetching message:', error);

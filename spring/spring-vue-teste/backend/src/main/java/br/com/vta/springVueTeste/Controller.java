@@ -13,7 +13,7 @@ public class Controller {
     @CrossOrigin
     @GetMapping("/api-ola")
     public ResponseEntity<Mensagem> dizerOla() {
-        Mensagem mensagem = new Mensagem("Olá do docker!!!");
+        Mensagem mensagem = new Mensagem("Olá do docker!\nNoVo TeStE!");
         return ResponseEntity.ok(mensagem);
     }
     
