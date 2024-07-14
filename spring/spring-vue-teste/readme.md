@@ -277,3 +277,99 @@ graph TB
 
 - Docker Compose Service: Define e gerencia um conjunto de containers como um único serviço, especificando o número de réplicas.
 - ECS Service: Gerencia a execução de tasks, garantindo que um número especificado de tasks esteja sempre em execução, similar ao comportamento de réplicas em Docker Compose.
+
+#### Passo a passo para subir container no ECS
+
+##### [Opcional] Subir imagem para o ECR ao invés de usar o Dockerhub
+- Pré requisito: Amazon cli instalado: veirificar se está instalado `aws --version`
+- Criar um repositório
+- Criar uma credencial IAM (usuário AWS) com autorização de acesso a conta.
+    - Serviço de IAM;
+    - Add user: user-spring-vue;
+    - Acesso programático;
+    - Adicionar permissões: amazon ec2 container registry full access;
+    - Copiar as credenciais: Access Key Id e secret
+    - Colar as crenciais no arquivo de credenciais na pasta .aws
+    - no terminal `aws configure`
+- Visualizar os comandos para realizar o push da imagem para o repositório criado e criar um arquivo sh
+
+
+##### a. Criar um cluster
+- Instância EC2 Linux;
+- Criar uma key pair ou usar alguma criada;
+- Criar um security group para que o ambiente externo tenha acesso à máquina EC2, liberar a porta 8081 ou a porta usada pela aplicação;
+- Container Instance IAM role: permissão para comunicação dos recursos da AWS
+- EC2, new ASG, on-demand ... min 1, max 1
+
+##### b. Criar Task Definition
+- Launch Type: EC2;
+- Network mode: bridge (PADRÃO DE DOCKER)
+- Tamanho da tarefa: CPU e Memória vazios. Só preencher caso o tipo fosse Fargate
+- Container Definition
+    - nome: taskdefinition-spring-vue-teste
+    - image: docker.io/vinissaum/spring-vue-teste:1.0
+    - limite memória: 
+    - port: "8081:8081"
+    - CPU: 1
+    - Limite de memória soft (memoryReservation):quantidade gratuita é 1 GB, então definir 0.7 GB
+    
+##### c. Criar Service
+
+Responsável por lançar a Task (container).
+
+Depois de criada a Task Definition, escolher a opção `Implantar > Criar Serviço`.
+- Opções: Tipo de inicialização
+- Launch Type: EC2;
+- Tipo de aplicação: Serviço
+- Escolher o cluster que foi criado;
+- Nome: service-spring-vue-teste;
+- Service Type: Replica;
+- Number de task: 1;
+- Min - Max: 0 - 100%
+
+######## Ajustar 
+## ECS
+
+Criar a imagem localmente
+```sh
+docker build -t vinissaum/meu-nginx .
+docker run -d -p 8081:80 vinissaum/meu-nginx
+```
+
+Criar credenciais no IAM
+    Nome: usuario-meu-nginx
+    Permissão: AmazonEC2ContainerRegistryFullAccess e AmazonECS_FullAccess
+    Criar Access Key
+        Tipo: Command Line Interface (CLI)
+        Copiar o Access Key e Secret
+
+Colar as informações de credenciais no arquivo de credenciais da AWS
+Abrir terminal no computador local
+
+```sh
+# Navegar até a pasta da AWS
+cd .aws
+
+# Abrir o arquivo de credenciais
+sudo gedit credencials
+
+# Informar o profile
+[usuario-meu-nginx]
+aws_access_key_id = valor_copiado_access_key
+aws_secret_access_key = valor_copiado_secret_access
+
+```
+
+Criar Repositório ECR
+    Tipo: privado
+    Nome: meu-nginx
+    view push commands
+        -> Copiar os comandos e colar no arquivo build-aws.sh
+    Depois de copiar os comandos, configurar um profile na aws no primeiro comando. Ex: `--profile usuario-meu-nginx`
+        
+
+Criar security group para construir o cluster
+    Menu EC2 -> Security Group
+    Nome: security-group-cluster-nginx
+    Add rule: HTTP 80
+

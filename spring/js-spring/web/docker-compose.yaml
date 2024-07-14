@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  web:
+    image: meu-nginx:latest
+    container_name: meu-nginx
+    ports:
+      - 8081:80

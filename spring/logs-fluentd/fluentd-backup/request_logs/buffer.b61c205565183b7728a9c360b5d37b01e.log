@@ -1,0 +1,9 @@
+{"pid":16,"ppid":7,"worker":0,"message":"starting fluentd worker pid=16 ppid=7 worker=0"}
+{"worker":0,"message":"fluentd worker is now running worker=0"}
+{"worker":0,"message":"fluentd worker is now stopping worker=0"}
+{"pid":16,"ppid":7,"worker":0,"message":"starting fluentd worker pid=16 ppid=7 worker=0"}
+{"worker":0,"message":"fluentd worker is now running worker=0"}
+{"worker":0,"message":"fluentd worker is now stopping worker=0"}
+{"pid":16,"ppid":7,"worker":0,"message":"starting fluentd worker pid=16 ppid=7 worker=0"}
+{"worker":0,"message":"fluentd worker is now running worker=0"}
+{"worker":0,"message":"fluentd worker is now stopping worker=0"}

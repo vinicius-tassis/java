@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  backend-app-rest:
+    build: ./app-rest
+    ports:
+      - "8080:8080"
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-address: localhost:24224
+    #     tag: backend-app-rest
+    # Aqui configuramos o link com o Fluentd
+    environment:
+      - FLUENTD_HOST=fluentd
+      - FLUENTD_PORT=24224
+    depends_on:
+      - fluentd
+
+  fluentd:
+    image: fluent/fluentd:v1.16-1
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    user: fluent
+    volumes:
+      # - ./fluentd:/fluentd/log
+      - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf   # Adicione esta linha se o arquivo estiver localmente
+    command: fluentd -c /fluentd/etc/fluent.conf
+  
+  # fluentd:
+  #   image: fluent/fluentd:v1.12-1
+  #   ports:
+  #     - "24224:24224"
+  #     - "24224:24224/udp"
+  #   volumes:
+  #     - ./fluentd:/fluentd
+  #     - ./logs:/fluentd/log
+  #   command: "fluentd -c /fluentd/fluent.conf -v"
+  #   restart: always
