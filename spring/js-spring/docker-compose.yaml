@@ -18,8 +18,19 @@ services:
   spring-boot-app:
     build: apiRest/
     image: api-rest-spring-boot:latest
+    container_name: api-rest-spring-boot
     ports:
       - "8080:8080"
+    networks:
+      - backend-network
+
+  calculadora-app:
+    build:
+      context: ./apiCalculadora
+    image: api-calculadora:latest
+    container_name: api-calculadora
+    ports:
+      - "8081:8080"
     networks:
       - backend-network
 

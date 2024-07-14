@@ -69,6 +69,34 @@ $(document).ready(function() {
     }
 
     getApi();
+
+
+    function somar(num1, num2) {
+        const url = `http://localhost/calculadora/soma?numero1=${num1}&numero2=${num2}`;
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+                return response.json();
+                
+            })
+            .then(data => {
+                console.log(data);
+                mostrarResultado(data);
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+    }
+
+    function mostrarResultado(dados) {
+        var texto = $("#calculadora");
+        texto.html(`<p>Resultado = ${dados}</p>`);
+    }
+
+    somar(3, 9);
     
     
 });
