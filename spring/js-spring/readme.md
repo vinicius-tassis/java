@@ -14,3 +14,9 @@ ou
 ```sh
 docker-compose up -d
 ```
+
+## Criação de imagem e orquestração de containers
+
+```sh
+docker-compose up --build
+```

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  web:
+    build: web/
+    image: meu-nginx:latest
+    container_name: meu-nginx
+    ports:
+      - 80:80
+    # volumes:
+    #   - ./web/config/default.conf:/etc/nginx/conf.d/default.conf
+    #   - ./web:/usr/share/nginx/html
+    depends_on:
+      - spring-boot-app
+    networks:
+      - backend-network
+
+  spring-boot-app:
+    build: apiRest/
+    image: api-rest-spring-boot:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-network
+
+networks:
+  backend-network:

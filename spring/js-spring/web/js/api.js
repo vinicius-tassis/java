@@ -44,7 +44,7 @@ $(document).ready(function() {
     // getBooks();
 
     function getApi() {
-        const url = "http://localhost:8080/api/mensagem?nome=Vinicius";
+        const url = "http://localhost/api/mensagem?nome=Vinicius";
 
         fetch(url)
             .then(response => {
